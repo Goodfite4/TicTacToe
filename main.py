@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import *
 from tkinter import messagebox
-from functools import partial
+
 
 
 # nest whole program in a function to call it again in order to reset the board.
@@ -16,6 +16,8 @@ def tictactoe():
             checked_positions[row][col] = "X" if i % 2 == 0 else "O"
             i += 1
             check_for_winner()
+            print(i)
+
         else:
             messagebox.showinfo(title="Error", message="This block already has been chosen.")
 
@@ -52,8 +54,24 @@ def tictactoe():
         ):
             return check_winner("X")
 
+        elif i == 11:
+            return draw()
+
     # Display who won
+    def draw():
+        global i
+        result = tkinter.messagebox.askretrycancel(title=f"Its a Draw.", message="Play another match?")
+        if result is True:
+            i = 2
+            window.destroy()
+            tictactoe()
+
+        else:
+            return quit()
+
     def check_winner(x):
+        global i
+        i = 2
         result = tkinter.messagebox.askretrycancel(title=f"PLAYER {x} WON!", message="Play another match?")
         # if play again, reset the game, otherwise quit the program.
         if result is True:
